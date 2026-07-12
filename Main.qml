@@ -21,7 +21,7 @@ Rectangle {
   signal tryLogin()
 
   onTryLogin : {
-    sddm.login(amadeus_username.text, amadeus_password.text, sessionModel.lastIndex);
+    sddm.login(amadeus_username.text, amadeus_password.text, amadeus_session.currentIndex);
   }
 
   FontLoader {
@@ -119,7 +119,7 @@ Rectangle {
     font.family: takao_mincho.name
     font.pixelSize: 27/amadeus_root.scalingY
 
-    KeyNavigation.tab: amadeus_login
+    KeyNavigation.tab: amadeus_session
     KeyNavigation.backtab: amadeus_username
 
     Keys.onPressed: {
@@ -147,6 +147,35 @@ Rectangle {
       acceptedButtons: Qt.LeftButton
 
       onClicked: { amadeus_root.tryLogin() }
+  }
+
+  SpComboBox {
+    id: amadeus_session
+
+    width: Math.max(300/amadeus_root.scalingX, amadeus_session.maxDelegateWidth + 130/amadeus_root.scalingX)
+    height: 40/amadeus_root.scalingY
+
+    x: (amadeus_root.width - width)/2
+    y: 920/amadeus_root.scalingY + diffY
+
+    model: sessionModel
+
+    visible: isPrimary
+    color: "black"
+    borderColor: "#555555"
+    focusColor: "#555555"
+    hoverColor: "#000"
+    borderWidth: 2
+    textColor: inputColor
+    glowColor: glow
+
+    font.family: takao_mincho.name
+    font.pixelSize: 22/amadeus_root.scalingY
+    font.letterSpacing: 1.2
+    font.bold: true
+
+    KeyNavigation.tab: amadeus_username
+    KeyNavigation.backtab: amadeus_password
   }
 
   Component.onCompleted: {
