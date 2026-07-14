@@ -21,6 +21,7 @@ Rectangle {
   signal tryLogin()
 
   onTryLogin : {
+    introAnimation.start()
     sddm.login(amadeus_username.text, amadeus_password.text, amadeus_session.currentIndex);
   }
 
@@ -215,7 +216,7 @@ Rectangle {
 
     onCurrentIndexChanged: {
       if (currentIndex === 0) return;
-      
+
       if (currentIndex === 1) {
         sddm.suspend();
       } else if (currentIndex === 2) {
@@ -223,7 +224,7 @@ Rectangle {
       } else if (currentIndex === 3) {
         sddm.powerOff();
       }
-      
+
       currentIndex = 0;
     }
   }
@@ -233,5 +234,38 @@ Rectangle {
       amadeus_username.focus = true
     else
       amadeus_password.focus = true
+  }
+
+
+  AnimatedImage {
+    id: splashGif
+    source: "kurisu.gif"
+
+    anchors.centerIn: parent
+
+    opacity: 0.0
+    scale: 0.5
+
+    ParallelAnimation {
+      id: introAnimation
+
+      NumberAnimation {
+        target: splashGif
+        property: "opacity"
+        from: 0.0
+        to: 1.0
+        duration: 1000
+        easing.type: Easing.OutExpo
+      }
+
+      NumberAnimation {
+        target: splashGif
+        property: "scale"
+        from: 0.5
+        to: 1.0
+        duration: 1000
+        easing.type: Easing.OutExpo
+      }
+    }
   }
 }
