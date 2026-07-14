@@ -21,7 +21,7 @@ Rectangle {
   signal tryLogin()
 
   onTryLogin : {
-    introAnimation.start()
+    loginSequence.start()
     sddm.login(amadeus_username.text, amadeus_password.text, amadeus_session.currentIndex);
   }
 
@@ -246,9 +246,9 @@ Rectangle {
     opacity: 0.0
     scale: 0.5
 
+  SequentialAnimation {
+    id: loginSequence
     ParallelAnimation {
-      id: introAnimation
-
       NumberAnimation {
         target: splashGif
         property: "opacity"
@@ -257,7 +257,6 @@ Rectangle {
         duration: 1000
         easing.type: Easing.OutExpo
       }
-
       NumberAnimation {
         target: splashGif
         property: "scale"
@@ -267,5 +266,29 @@ Rectangle {
         easing.type: Easing.OutExpo
       }
     }
+
+    PauseAnimation {
+      duration: 500
+    }
+
+    ParallelAnimation {
+      NumberAnimation {
+        target: splashGif
+        property: "opacity"
+        from: 1.0
+        to: 0.0
+        duration: 1000
+        easing.type: Easing.InExpo
+      }
+      NumberAnimation {
+        target: splashGif
+        property: "scale"
+        from: 1.0
+        to: 0.5
+        duration: 1000
+        easing.type: Easing.InExpo
+      }
+    }
+  }
   }
 }
