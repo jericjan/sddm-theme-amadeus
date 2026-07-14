@@ -31,6 +31,13 @@ Rectangle {
 
   TextConstants { id: textConstants }
 
+  ListModel {
+    id: powerModel
+    ListElement { name: "System" }
+    ListElement { name: "Sleep" }
+    ListElement { name: "Restart" }
+    ListElement { name: "Shut Down" }
+  }
   
   Loader {
       id: vkloader
@@ -174,8 +181,51 @@ Rectangle {
     font.letterSpacing: 1.2
     font.bold: true
 
-    KeyNavigation.tab: amadeus_username
+    KeyNavigation.tab: amadeus_power
     KeyNavigation.backtab: amadeus_password
+  }
+
+  SpComboBox {
+    id: amadeus_power
+
+    width: Math.max(200/amadeus_root.scalingX, amadeus_power.maxDelegateWidth + 80/amadeus_root.scalingX)
+    height: 40/amadeus_root.scalingY
+
+    x: 1870/amadeus_root.scalingX + diffX - width
+    y: 1000/amadeus_root.scalingY + diffY
+
+    model: powerModel
+
+    visible: isPrimary
+    color: "black"
+    borderColor: "#555555"
+    focusColor: "#555555"
+    hoverColor: "#000"
+    borderWidth: 2
+    textColor: inputColor
+    glowColor: glow
+
+    font.family: takao_mincho.name
+    font.pixelSize: 22/amadeus_root.scalingY
+    font.letterSpacing: 1.2
+    font.bold: true
+
+    KeyNavigation.tab: amadeus_username
+    KeyNavigation.backtab: amadeus_session
+
+    onCurrentIndexChanged: {
+      if (currentIndex === 0) return;
+      
+      if (currentIndex === 1) {
+        sddm.suspend();
+      } else if (currentIndex === 2) {
+        sddm.reboot();
+      } else if (currentIndex === 3) {
+        sddm.powerOff();
+      }
+      
+      currentIndex = 0;
+    }
   }
 
   Component.onCompleted: {
