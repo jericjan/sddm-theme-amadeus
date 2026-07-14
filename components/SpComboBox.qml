@@ -5,6 +5,7 @@ FocusScope {
     id: container
     width: 250
     height: 40
+    signal activated(int index)
 
     property var model
     property int currentIndex: 0
@@ -130,6 +131,7 @@ FocusScope {
                         onClicked: {
                             container.currentIndex = index;
                             container.expanded = false;
+			    container.activated(index);
                         }
                     }
 
@@ -174,6 +176,7 @@ FocusScope {
             if (container.expanded) {
                 container.expanded = false;
                 event.accepted = true;
+		container.activated(container.currentIndex);
             }
         }
     }

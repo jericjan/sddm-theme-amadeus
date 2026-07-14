@@ -214,14 +214,14 @@ Rectangle {
     KeyNavigation.tab: amadeus_username
     KeyNavigation.backtab: amadeus_session
 
-    onCurrentIndexChanged: {
-      if (currentIndex === 0) return;
+    onActivated: {
+      if (index === 0) return;
 
-      if (currentIndex === 1) {
+      if (index === 1) {
         sddm.suspend();
-      } else if (currentIndex === 2) {
+      } else if (index === 2) {
         sddm.reboot();
-      } else if (currentIndex === 3) {
+      } else if (index === 3) {
         sddm.powerOff();
       }
 
